@@ -5,8 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
-from .serializers import UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer, MenuSerializer, OrderSerializer, OrderItemSerializer, PaymentSerializer, ReviewSerializer, CreateOrderSerializer
+from .serializers import UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer, MenuSerializer, OrderSerializer, OrderItemSerializer, PaymentSerializer, CreatePaymentSerializer, ReviewSerializer, CreateOrderSerializer
 from rest_framework.decorators import action
+# from rest_framework import serializers, viewsets
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -56,10 +57,24 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
     permission_classes = [IsAuthenticated]
 
+
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = CreatePaymentSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        payment = serializer.save()
+        return Response(self.get_serializer(payment).data, status=status.HTTP_201_CREATED)
+
+
+    @action(detail=True, methods=['post'])
+    def success(self, request, pk=None):
+        payment = self.get_object()
+        payment.status = 'Success'
+        payment.save()
+        return Response(PaymentSerializer(payment).data, status=status.HTTP_200_OK)
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()

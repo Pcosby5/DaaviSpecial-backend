@@ -65,7 +65,30 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = '__all__'
+        fields = ['id', 'order', 'amount', 'payment_method', 'status', 'created_at']
+        read_only_fields = ['id', 'status', 'created_at']
+
+
+class CreatePaymentSerializer(serializers.ModelSerializer):
+    order_id = serializers.UUIDField(write_only=True)
+
+    class Meta:
+        model = Payment
+        fields = ['id', 'order_id', 'amount', 'payment_method', 'status', 'created_at']
+
+    def create(self, validated_data):
+        # Extract order_id from validated_data
+        order_id = validated_data.pop('order_id')
+
+        # Fetch corresponding Order instance
+        try:
+            order = Order.objects.get(id=order_id)
+        except Order.DoesNotExist:
+            raise serializers.ValidationError("Order not found")
+
+        # Create Payment instance with order reference
+        payment = Payment.objects.create(order=order, **validated_data)
+        return payment
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:

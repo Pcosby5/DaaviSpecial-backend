@@ -42,6 +42,8 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    order = serializers.PrimaryKeyRelatedField(queryset=Order.objects.all(), required=False)
+
     class Meta:
         model = OrderItem
         fields = '__all__'
@@ -58,16 +60,24 @@ class OrderSerializer(serializers.ModelSerializer):
         return sum(item.price * item.quantity for item in obj.items.all())
 
 class CreateOrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+
     class Meta:
         model = Order
-        fields = ['customer']
+        fields = ['customer', 'items']
+
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        order = Order.objects.create(**validated_data)
+        for item_data in items_data:
+            OrderItem.objects.create(order=order, **item_data)
+        return order
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = ['id', 'order', 'amount', 'payment_method', 'status', 'created_at']
         read_only_fields = ['id', 'status', 'created_at']
-
 
 class CreatePaymentSerializer(serializers.ModelSerializer):
     order_id = serializers.UUIDField(write_only=True)
@@ -77,16 +87,11 @@ class CreatePaymentSerializer(serializers.ModelSerializer):
         fields = ['id', 'order_id', 'amount', 'payment_method', 'status', 'created_at']
 
     def create(self, validated_data):
-        # Extract order_id from validated_data
         order_id = validated_data.pop('order_id')
-
-        # Fetch corresponding Order instance
         try:
             order = Order.objects.get(id=order_id)
         except Order.DoesNotExist:
             raise serializers.ValidationError("Order not found")
-
-        # Create Payment instance with order reference
         payment = Payment.objects.create(order=order, **validated_data)
         return payment
 

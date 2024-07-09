@@ -7,7 +7,6 @@ from rest_framework import status
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
 from .serializers import UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer, MenuSerializer, OrderSerializer, OrderItemSerializer, PaymentSerializer, CreatePaymentSerializer, ReviewSerializer, CreateOrderSerializer
 from rest_framework.decorators import action
-# from rest_framework import serializers, viewsets
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -16,12 +15,10 @@ class UserViewSet(viewsets.ModelViewSet):
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    # permission_classes = [IsAuthenticated]
 
 class StaffViewSet(viewsets.ModelViewSet):
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
-    # permission_classes = [IsAuthenticated]
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -47,16 +44,15 @@ class OrderViewSet(viewsets.ModelViewSet):
         items_data = request.data.get('items', [])
         for item_data in items_data:
             item_data['order'] = order.id
-            serializer = OrderItemSerializer(data=item_data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+            item_serializer = OrderItemSerializer(data=item_data)
+            item_serializer.is_valid(raise_exception=True)
+            item_serializer.save()
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
 
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
     permission_classes = [IsAuthenticated]
-
 
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
@@ -68,7 +64,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
         payment = serializer.save()
         return Response(self.get_serializer(payment).data, status=status.HTTP_201_CREATED)
 
-
     @action(detail=True, methods=['post'])
     def success(self, request, pk=None):
         payment = self.get_object()
@@ -79,7 +74,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    # permission_classes = [IsAuthenticated]
 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)

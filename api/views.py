@@ -80,7 +80,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def success(self, request, pk=None):
         payment = self.get_object()
-        payment.status = 'Success'
+        payment.status = 'Completed'
         payment.save()
         return Response(PaymentSerializer(payment).data, status=status.HTTP_200_OK)
 

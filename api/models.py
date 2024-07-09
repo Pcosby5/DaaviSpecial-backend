@@ -14,7 +14,7 @@ class User(AbstractUser):
         ('Customer', 'Customer'),
         ('Staff', 'Staff')
     ]
-    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES, default='customer')
     is_active = models.BooleanField(default=True)
     created_on = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

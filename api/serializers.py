@@ -4,7 +4,7 @@ from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Pay
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email', 'phone_number', 'street_address', 'city', 'country']
+        fields = ['id', 'username', 'password', 'email', 'phone_number', 'street_address', 'city', 'country', 'user_type']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -19,6 +19,9 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
+        if Customer.objects.filter(user=user).exists():
+            raise serializers.ValidationError("Customer entry already exists for this user.")
+
         customer = Customer.objects.create(user=user, **validated_data)
         return customer
 

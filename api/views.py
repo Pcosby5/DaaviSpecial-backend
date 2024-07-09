@@ -29,6 +29,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 class StaffViewSet(viewsets.ModelViewSet):
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
+    permission_classes = [IsAuthenticated]
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -41,6 +42,7 @@ class MenuViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = CreateOrderSerializer(data=request.data)
@@ -67,6 +69,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = CreatePaymentSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -84,6 +87,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)

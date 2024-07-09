@@ -12,17 +12,17 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class CustomerSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
     class Meta:
         model = Customer
         fields = '__all__'
+        read_only_fields = ['user']
 
     def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user = User.objects.create(**user_data)
+        user = self.context['request'].user
         customer = Customer.objects.create(user=user, **validated_data)
         return customer
+
+
 
 class StaffSerializer(serializers.ModelSerializer):
     user = UserSerializer()

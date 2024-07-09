@@ -5,7 +5,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
-from .serializers import UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer, MenuSerializer, OrderSerializer, OrderItemSerializer, PaymentSerializer, CreatePaymentSerializer, ReviewSerializer, CreateOrderSerializer
+from .serializers import (
+    UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer,
+    MenuSerializer, OrderSerializer, OrderItemSerializer, PaymentSerializer,
+    CreatePaymentSerializer, ReviewSerializer, CreateOrderSerializer)
 from rest_framework.decorators import action
 
 class UserViewSet(viewsets.ModelViewSet):

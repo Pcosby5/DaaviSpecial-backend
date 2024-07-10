@@ -12,20 +12,17 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class CustomerSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = Customer
         fields = '__all__'
-        read_only_fields = ['user']
 
     def create(self, validated_data):
-        user = self.context['request'].user
-        if Customer.objects.filter(user=user).exists():
-            raise serializers.ValidationError("Customer entry already exists for this user.")
-
+        user_data = validated_data.pop('user')
+        user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         customer = Customer.objects.create(user=user, **validated_data)
         return customer
-
-
 
 class StaffSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -33,6 +30,12 @@ class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
         fields = '__all__'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        staff = Staff.objects.create(user=user, **validated_data)
+        return staff
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

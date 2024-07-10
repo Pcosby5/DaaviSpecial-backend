@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.db.models import Sum, F
 
 class User(AbstractUser):
@@ -14,7 +16,7 @@ class User(AbstractUser):
         ('Customer', 'Customer'),
         ('Staff', 'Staff')
     ]
-    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES, default='customer')
+    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES, default='Customer')
     is_active = models.BooleanField(default=True)
     created_on = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -39,6 +41,21 @@ class Staff(models.Model):
 
     def __str__(self):
         return f'Staff: {self.user.username}'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.user_type == 'Customer':
+            Customer.objects.create(user=instance)
+        elif instance.user_type == 'Staff':
+            Staff.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    if instance.user_type == 'Customer' and hasattr(instance, 'customer'):
+        instance.customer.save()
+    elif instance.user_type == 'Staff' and hasattr(instance, 'staff'):
+        instance.staff.save()
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

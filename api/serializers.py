@@ -8,6 +8,8 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
+        # Ensure the user_type is set to 'customer' during user creation
+        validated_data['user_type'] = 'customer'
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -30,12 +32,9 @@ class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
         fields = '__all__'
+        read_only_fields = ['user']
 
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-        staff = Staff.objects.create(user=user, **validated_data)
-        return staff
+    # No create method to prevent staff registration through the API
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

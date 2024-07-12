@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Ensure the user_type is set to 'customer' during user creation
-        validated_data['user_type'] = 'customer'
+        validated_data['user_type'] = 'Customer'
         user = User.objects.create_user(**validated_data)
         return user
 

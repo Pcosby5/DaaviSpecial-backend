@@ -171,25 +171,25 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
         return Response(PaymentSerializer(payment).data, status=status.HTTP_200_OK)
 
-@csrf_exempt
-def momo_callback(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        transaction_id = data.get('transaction_id')
-        status = data.get('status')
+    @csrf_exempt
+    def momo_callback(request):
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            transaction_id = data.get('transaction_id')
+            status = data.get('status')
 
-        try:
-            payment = Payment.objects.get(transaction_id=transaction_id)
-            if status == 'success':
-                payment.status = 'Completed'
-            else:
-                payment.status = 'Failed'
-            payment.save()
-            return JsonResponse({"message": "Payment status updated."}, status=200)
-        except Payment.DoesNotExist:
-            return JsonResponse({"error": "Payment not found."}, status=404)
+            try:
+                payment = Payment.objects.get(transaction_id=transaction_id)
+                if status == 'success':
+                    payment.status = 'Completed'
+                else:
+                    payment.status = 'Failed'
+                payment.save()
+                return JsonResponse({"message": "Payment status updated."}, status=200)
+            except Payment.DoesNotExist:
+                return JsonResponse({"error": "Payment not found."}, status=404)
 
-    return JsonResponse({"error": "Invalid request method."}, status=400)
+        return JsonResponse({"error": "Invalid request method."}, status=400)
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()

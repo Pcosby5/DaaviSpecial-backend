@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'users',
-    'menu',
+    'api',
     'rest_framework_simplejwt.token_blacklist',
 ]
 
@@ -169,5 +168,5 @@ SIMPLE_JWT = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'users.NewUser'
+AUTH_USER_MODEL = 'api.User'
 

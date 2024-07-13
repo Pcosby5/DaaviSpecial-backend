@@ -83,6 +83,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'daaviSpecial1$default',
+#         'USER': 'daaviSpecial1',
+#         'PASSWORD': 'Whatismaths101',
+#         'HOST': 'daaviSpecial1.mysql.pythonanywhere-services.com',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

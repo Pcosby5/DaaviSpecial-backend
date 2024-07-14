@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "corsheaders",
         "daavi",
+        "dotenv",
         "MOMO",
         "simplejwt",
-        "viewsets"
+        "viewsets",
+        "whitenoise"
     ]
 }

@@ -6,7 +6,7 @@
 
 #### * Database: `Sqlite3/PostgreSQL`
 #### * Version Control: `Git`, `GitHub`
-#### * Deployment: `Heroku` or `Netlify` for deployment or `Vercel`
+#### * Deployment: `Render`
 #### * Design Tools: Figma or Adobe XD for UI/UX design
 
 

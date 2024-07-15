@@ -7,7 +7,6 @@
 #### * Database: `Sqlite3/PostgreSQL`
 #### * Version Control: `Git`, `GitHub`
 #### * Deployment: `Render`
-#### * Design Tools: Figma or Adobe XD for UI/UX design
 
 
 ## AUTHORS

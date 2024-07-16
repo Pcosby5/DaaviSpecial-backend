@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    UserViewSet, CustomerViewSet, StaffViewSet, CategoryViewSet,
+    UserViewSet, CustomerViewSet, StaffViewSet, CategoryViewSet, MenuItemsByCategoryView,
     MenuViewSet, OrderViewSet, OrderItemViewSet, PaymentViewSet, ReviewViewSet)
 
 router = DefaultRouter()

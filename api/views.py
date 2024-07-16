@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
 from .serializers import (

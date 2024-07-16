@@ -25,10 +25,15 @@ class User(AbstractUser):
         return self.username
 
 class Customer(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.user.id
+        super(Customer, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'Customer: {self.user.username}'
@@ -44,11 +49,10 @@ class Staff(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.user_type == 'Customer':
-            Customer.objects.create(user=instance)
-        elif instance.user_type == 'Staff':
-            Staff.objects.create(user=instance)
+    if created and instance.user_type == 'Customer':
+        Customer.objects.create(user=instance)
+    elif created and instance.user_type == 'Staff':
+        Staff.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

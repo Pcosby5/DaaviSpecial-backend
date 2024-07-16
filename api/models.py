@@ -74,10 +74,10 @@ class Menu(models.Model):
     description = models.CharField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image_url = models.URLField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='menu_items', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.description
+        return self.name
 
 class Order(models.Model):
     DELIVERY_METHOD_CHOICES = [

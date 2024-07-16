@@ -76,10 +76,17 @@ class Menu(models.Model):
         return self.description
 
 class Order(models.Model):
+    DELIVERY_METHOD_CHOICES = [
+        ('Delivery', 'Delivery'),
+        ('Postal', 'Postal'),
+        ('Pickup', 'Pickup')
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default='Delivery')
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
         ('Processing', 'Processing'),

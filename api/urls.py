@@ -17,4 +17,5 @@ router.register(r'reviews', ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('orders/delivery-methods/', OrderViewSet.as_view({'get': 'delivery_methods'}), name='delivery-methods'),
 ]

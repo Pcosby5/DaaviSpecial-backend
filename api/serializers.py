@@ -56,20 +56,22 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
+    delivery_method = serializers.CharField(source='get_delivery_method_display')
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'status', 'created_at', 'updated_at', 'items', 'total_price']
+        fields = ['id', 'customer', 'status', 'created_at', 'updated_at', 'items', 'total_price', 'delivery_method']
 
     def get_total_price(self, obj):
         return sum(item.price * item.quantity for item in obj.items.all())
 
 class CreateOrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+    delivery_method = serializers.ChoiceField(choices=Order.DELIVERY_METHOD_CHOICES)
 
     class Meta:
         model = Order
-        fields = ['customer', 'items']
+        fields = ['customer', 'items', 'delivery_method']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')

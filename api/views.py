@@ -50,6 +50,11 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['get'])
+    def delivery_methods(self, request):
+        delivery_choices = Order.DELIVERY_CHOICES
+        return Response(delivery_choices, status=status.HTTP_200_OK)
+
     def create(self, request, *args, **kwargs):
         serializer = CreateOrderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

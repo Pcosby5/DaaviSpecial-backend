@@ -4,6 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
 from .serializers import (
     UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer,
@@ -47,8 +48,12 @@ class MenuItemsByCategoryView(generics.ListAPIView):
     serializer_class = MenuSerializer
 
     def get_queryset(self):
-        category_id = self.kwargs['category_id']
-        return Menu.objects.filter(category__id=category_id)
+        category_id = self.kwargs.get('category_id')
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            raise NotFound("Category not found")
+        return Menu.objects.filter(category=category)
 
 
 class MenuViewSet(viewsets.ModelViewSet):

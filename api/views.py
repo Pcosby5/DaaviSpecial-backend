@@ -41,6 +41,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+
+class MenuItemsByCategoryView(generics.ListAPIView):
+    serializer_class = MenuSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return Menu.objects.filter(category__id=category_id)
+
+
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer

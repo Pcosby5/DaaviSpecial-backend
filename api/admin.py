@@ -1,73 +1,19 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
+from django.apps import apps
+from django.contrib.admin.sites import AlreadyRegistered
+# from .models import User, UserAdmin
 
-@admin.register(User)
-class UserAdmin(DefaultUserAdmin):
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'street_address', 'city', 'country')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
-        ('User Type', {'fields': ('user_type',)})
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2', 'email', 'phone_number', 'user_type'),
-        }),
-    )
-    list_display = ('username', 'email', 'first_name', 'last_name', 'user_type', 'is_staff', 'is_active')
-    search_fields = ('username', 'email', 'first_name', 'last_name')
-    ordering = ('username',)
+# Attempt to register all models
+models = apps.get_models()
 
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at', 'updated_at')
-    search_fields = ('user__username', 'user__email')
+for model in models:
+    try:
+        admin.site.register(model)
+    except AlreadyRegistered:
+        pass
 
-@admin.register(Staff)
-class StaffAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at', 'updated_at')
-    search_fields = ('user__username', 'user__email')
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
-
-@admin.register(Menu)
-class MenuAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'price', 'image_url', 'category')
-    search_fields = ('name', 'description', 'category__name')
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'status', 'created_at', 'updated_at')
-    search_fields = ('customer__user__username', 'status')
-
-@admin.register(OrderItem)
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('order', 'menu', 'quantity', 'price')
-    search_fields = ('order__customer__user__username', 'menu__description')
-
-@admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('order', 'amount', 'payment_method', 'status', 'created_at')
-    search_fields = ('order__customer__user__username', 'payment_method', 'status')
-
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'menu', 'rating', 'comment', 'created_at')
-    search_fields = ('customer__user__username', 'menu__name', 'rating')
-
-# Registering models without custom admin interfaces
-admin.site.register(User, UserAdmin)
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Staff, StaffAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Menu, MenuAdmin)
-admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
-admin.site.register(Payment, PaymentAdmin)
-admin.site.register(Review, ReviewAdmin)
+# Alternatively, if you only want to handle the User model:
+# try:
+#     admin.site.register(User, UserAdmin)
+# except AlreadyRegistered:
+#     pass

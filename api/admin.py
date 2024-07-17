@@ -38,8 +38,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('description', 'price', 'image_url', 'category')
-    search_fields = ('description', 'category__name')
+    list_display = ('name', 'description', 'price', 'image_url', 'category')
+    search_fields = ('name', 'description', 'category__name')
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -59,4 +59,15 @@ class PaymentAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('customer', 'menu', 'rating', 'comment', 'created_at')
-    search_fields = ('customer__user__username', 'menu__description', 'rating')
+    search_fields = ('customer__user__username', 'menu__name', 'rating')
+
+# Registering models without custom admin interfaces
+admin.site.register(User, UserAdmin)
+admin.site.register(Customer, CustomerAdmin)
+admin.site.register(Staff, StaffAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Menu, MenuAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Payment, PaymentAdmin)
+admin.site.register(Review, ReviewAdmin)

@@ -2,7 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from .models import User, Customer, Staff, Category, Menu, Order, OrderItem, Payment, Review
 from .serializers import (
     UserSerializer, CustomerSerializer, StaffSerializer, CategorySerializer,
@@ -41,6 +43,19 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+
+class MenuItemsByCategoryView(generics.ListAPIView):
+    serializer_class = MenuSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            raise NotFound("Category not found")
+        return Menu.objects.filter(category=category)
+
+
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
@@ -49,6 +64,11 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def delivery_methods(self, request):
+        delivery_choices = Order.DELIVERY_CHOICES
+        return Response(delivery_choices, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         serializer = CreateOrderSerializer(data=request.data)

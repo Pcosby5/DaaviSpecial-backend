@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    UserViewSet, CustomerViewSet, StaffViewSet, CategoryViewSet,
+    UserViewSet, CustomerViewSet, StaffViewSet, CategoryViewSet, MenuItemsByCategoryView,
     MenuViewSet, OrderViewSet, OrderItemViewSet, PaymentViewSet, ReviewViewSet)
 
 router = DefaultRouter()
@@ -17,4 +17,6 @@ router.register(r'reviews', ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('orders/delivery-methods/', OrderViewSet.as_view({'get': 'delivery_methods'}), name='delivery-methods'),
+    path('categories/<uuid:category_id>/menu-items/', MenuItemsByCategoryView.as_view(), name='menu-items-by-category'),
 ]

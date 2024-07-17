@@ -38,7 +38,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'price', 'image_url', 'category')
+    list_display = ('name', 'price', 'category')
     search_fields = ('name', 'category__name')
 
 @admin.register(Order)

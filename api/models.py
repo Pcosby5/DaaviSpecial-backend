@@ -92,12 +92,11 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default='Delivery')
     STATUS_CHOICES = [
-        ('Pending', 'Pending'),
         ('Processing', 'Processing'),
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled')
     ]
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Processing')
 
     def __str__(self):
         return f'Order {self.id} - {self.customer.user.username}'

@@ -7,6 +7,12 @@ Welcome to the DaaviSpecial Restaurant Web App, your ultimate destination for a 
 * Continental Classics: Enjoy a selection of classic continental dishes, from creamy Spaghetti Carbonara to crispy Fish and Chips, ensuring a familiar and satisfying dining experience.
 * Chinese Favorites: Discover the rich and diverse flavors of Chinese cuisine with dishes like spicy Mapo Tofu and other beloved classics.
 * Caribbean Specialties: Savor the vibrant and bold tastes of the Caribbean, featuring iconic dishes such as Ackee and Saltfish.
+* Delicious Breakfasts: Start your day with a variety of breakfast options, from fluffy Omelettes and buttery Croissants to a hearty English Breakfast and refreshing Smoothie Bowls.
+
+## Why Choose DaaviSpecial?
+* User-Friendly Interface: Our app is designed with a clean, intuitive interface that makes browsing our menu and placing orders a breeze.
+* Diverse Menu Options: We offer a wide range of dishes from different cuisines to cater to all taste preferences and dietary needs.
+* 
 
 ## Backend Technologies used
 ### `Django-Python`

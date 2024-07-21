@@ -28,6 +28,9 @@ Welcome to the DaaviSpecial Restaurant Web App, your ultimate destination for a 
 #### * Version Control: `Git`, `GitHub`
 #### * Deployment: `Render`
 
+## Deployed App Link
+https://daavispecial.vercel.app/
+
 
 ## AUTHORS
 #### * Prince Ofosu - [@Pcosby5](https://github.com/Pcosby5)

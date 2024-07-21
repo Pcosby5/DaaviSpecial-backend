@@ -21,6 +21,9 @@ Welcome to the DaaviSpecial Restaurant Web App, your ultimate destination for a 
 ### `Django-Python`
 ![python](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbhwzNrngWxm7FE7Q__Dd3jEEeuYeyewgxXA&s)
 
+#### * Frontend Development: `HTML`, `CSS`, `JavaScript`, `React.js`
+![HTML](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj9_GLRM3yt8ZEApEK0U_Trof8dR5mMDOjVA&s) ![React.js](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY5zQQfgYdauP902KBIcvqGVfUGvUT4gyCJw&s)
+
 #### * Database: `Sqlite3/PostgreSQL`
 #### * Version Control: `Git`, `GitHub`
 #### * Deployment: `Render`

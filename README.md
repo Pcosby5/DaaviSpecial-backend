@@ -3,8 +3,8 @@
 Welcome to the DaaviSpecial Restaurant Web App, your ultimate destination for a diverse and delightful culinary experience. Our app showcases an exquisite menu that caters to a variety of tastes and preferences, offering a seamless and enjoyable user experience.
 
 ## Features
-#### * Local Delicacies: Indulge in authentic flavors from our traditional local cuisine, including favorites like Jollof Rice and Chicken, Banku and Okro Stew, and Fufu with Goat Light Soup
-
+* Local Delicacies: Indulge in authentic flavors from our traditional local cuisine, including favorites like Jollof Rice and Chicken, Banku and Okro Stew, and Fufu with Goat Light Soup
+* Continental Classics: Enjoy a selection of classic continental dishes, from creamy Spaghetti Carbonara to crispy Fish and Chips, ensuring a familiar and satisfying dining experience.
 
 ## Backend Technologies used
 ### `Django-Python`

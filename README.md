@@ -5,6 +5,8 @@ Welcome to the DaaviSpecial Restaurant Web App, your ultimate destination for a 
 ## Features
 * Local Delicacies: Indulge in authentic flavors from our traditional local cuisine, including favorites like Jollof Rice and Chicken, Banku and Okro Stew, and Fufu with Goat Light Soup
 * Continental Classics: Enjoy a selection of classic continental dishes, from creamy Spaghetti Carbonara to crispy Fish and Chips, ensuring a familiar and satisfying dining experience.
+* Chinese Favorites: Discover the rich and diverse flavors of Chinese cuisine with dishes like spicy Mapo Tofu and other beloved classics.
+* Caribbean Specialties: Savor the vibrant and bold tastes of the Caribbean, featuring iconic dishes such as Ackee and Saltfish.
 
 ## Backend Technologies used
 ### `Django-Python`

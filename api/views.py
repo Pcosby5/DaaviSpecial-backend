@@ -107,6 +107,17 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = CreatePaymentSerializer
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
+    def get_payments_by_user(self, request, user_id=None):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        payments = Payment.objects.filter(order__customer__user=user)
+        serializer = self.get_serializer(payments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

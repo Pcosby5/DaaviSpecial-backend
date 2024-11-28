@@ -1,3 +1,5 @@
 .env
-venv/
+special/
 .vscode/
+pycache/
+_pycache/
